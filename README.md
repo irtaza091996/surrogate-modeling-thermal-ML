@@ -10,18 +10,16 @@
 
 <table>
 <tr>
-<td width="50%">
+<td width="50%" valign="top">
 
 **[ATHENA](https://sci.esa.int/web/athena)** (Advanced Telescope for High-ENergy Astrophysics) is ESA's next-generation X-ray space observatory, targeted for launch in the early 2030s. Its mission: probe the hot and energetic universe (black holes, neutron stars, galaxy clusters) at 10-100x greater depth than any previous X-ray telescope.
 
 At the heart of ATHENA is a **3-metre diameter optical bench** that holds approximately **750 Silicon Porous Optic (SPO) mirror modules** in a concentric ring lattice. The structure must be accurate to within **tens of micrometres** and is being manufactured from **Ti-6Al-4V titanium alloy** using **Direct Energy Deposition (DED)**, making it the largest object ever 3D printed in titanium.
 
 </td>
-<td width="50%">
-
-![ATHENA optical bench geometry](assets/optical_bench_geometry.jpg)
-*Curved lattice geometry of the ATHENA optical bench, a grid of deep-pocketed ribs that precisely positions 750 X-ray mirror modules.*
-
+<td width="50%" valign="top">
+<img src="assets/optical_bench_geometry.jpg" width="100%"/>
+<em>Curved lattice geometry of the ATHENA optical bench, a grid of deep-pocketed ribs that precisely positions 750 X-ray mirror modules.</em>
 </td>
 </tr>
 </table>
@@ -32,17 +30,13 @@ Every deposition run must be validated with a full thermo-mechanical FEM simulat
 
 <table>
 <tr>
-<td width="50%">
-
-![Full FEM mesh](assets/fem_mesh_full.jpg)
-*The 2.5M-element FEM mesh of the full optical bench. Each radial and circumferential rib segment must be simulated individually during deposition.*
-
+<td width="50%" valign="top">
+<img src="assets/fem_mesh_full.jpg" width="100%"/>
+<em>The 2.5M-element FEM mesh of the full optical bench. Each radial and circumferential rib segment must be simulated individually during deposition.</em>
 </td>
-<td width="50%">
-
-![FEM thermal simulation](assets/fem_thermal_simulation.jpg)
-*High-fidelity FEM thermal field during a single DED deposition pass. Temperature at the laser-material interaction zone reaches ~240°C, driving residual stress and distortion. This simulation is what the surrogate model is trained to replace.*
-
+<td width="50%" valign="top">
+<img src="assets/fem_thermal_simulation.jpg" width="100%"/>
+<em>High-fidelity FEM thermal field during a single DED deposition pass. Temperature at the laser-material interaction zone reaches ~240°C, driving residual stress and distortion. This simulation is what the surrogate model is trained to replace.</em>
 </td>
 </tr>
 </table>
