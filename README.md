@@ -30,14 +30,12 @@ Every deposition run must be validated with a full thermo-mechanical FEM simulat
 
 <table>
 <tr>
-<td width="50%" valign="top">
-<img src="assets/fem_mesh_full.jpg" width="100%"/>
-<em>The 2.5M-element FEM mesh of the full optical bench. Each radial and circumferential rib segment must be simulated individually during deposition.</em>
-</td>
-<td width="50%" valign="top">
-<img src="assets/fem_thermal_simulation.jpg" width="100%"/>
-<em>High-fidelity FEM thermal field during a single DED deposition pass. Temperature at the laser-material interaction zone reaches ~240°C, driving residual stress and distortion. This simulation is what the surrogate model is trained to replace.</em>
-</td>
+<td width="50%"><img src="assets/fem_mesh_full.jpg" width="100%"/></td>
+<td width="50%"><img src="assets/fem_thermal_simulation.jpg" width="100%"/></td>
+</tr>
+<tr>
+<td width="50%" valign="top"><em>The 2.5M-element FEM mesh of the full optical bench. Each radial and circumferential rib segment must be simulated individually during deposition.</em></td>
+<td width="50%" valign="top"><em>High-fidelity FEM thermal field during a single DED deposition pass. Temperature at the laser-material interaction zone reaches ~240°C, driving residual stress and distortion. This simulation is what the surrogate model is trained to replace.</em></td>
 </tr>
 </table>
 
