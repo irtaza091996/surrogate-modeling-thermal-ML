@@ -12,15 +12,15 @@
 <tr>
 <td width="50%">
 
-**[ATHENA](https://sci.esa.int/web/athena)** (Advanced Telescope for High-ENergy Astrophysics) is ESA's next-generation X-ray space observatory, targeted for launch in the early 2030s. Its mission: probe the hot and energetic universe — black holes, neutron stars, galaxy clusters — at 10-100x greater depth than any previous X-ray telescope.
+**[ATHENA](https://sci.esa.int/web/athena)** (Advanced Telescope for High-ENergy Astrophysics) is ESA's next-generation X-ray space observatory, targeted for launch in the early 2030s. Its mission: probe the hot and energetic universe (black holes, neutron stars, galaxy clusters) at 10-100x greater depth than any previous X-ray telescope.
 
-At the heart of ATHENA is a **3-metre diameter optical bench** that holds approximately **750 Silicon Porous Optic (SPO) mirror modules** in a concentric ring lattice. The structure must be accurate to within **tens of micrometres** and is being manufactured from **Ti-6Al-4V titanium alloy** using **Direct Energy Deposition (DED)** — making it the largest object ever 3D printed in titanium.
+At the heart of ATHENA is a **3-metre diameter optical bench** that holds approximately **750 Silicon Porous Optic (SPO) mirror modules** in a concentric ring lattice. The structure must be accurate to within **tens of micrometres** and is being manufactured from **Ti-6Al-4V titanium alloy** using **Direct Energy Deposition (DED)**, making it the largest object ever 3D printed in titanium.
 
 </td>
 <td width="50%">
 
 ![ATHENA optical bench geometry](assets/optical_bench_geometry.jpg)
-*Curved lattice geometry of the ATHENA optical bench — a grid of deep-pocketed ribs that precisely positions 750 X-ray mirror modules.*
+*Curved lattice geometry of the ATHENA optical bench, a grid of deep-pocketed ribs that precisely positions 750 X-ray mirror modules.*
 
 </td>
 </tr>
@@ -28,7 +28,7 @@ At the heart of ATHENA is a **3-metre diameter optical bench** that holds approx
 
 ### The Manufacturing Challenge
 
-Every deposition run must be validated with a full thermo-mechanical FEM simulation to predict residual stress and distortion — dimensional errors of even a few micrometres can misalign mirror modules and degrade X-ray focusing performance. The full 3D FEM model runs on a mesh of **2.5 million elements** across **45 CPU cores** and takes **30 minutes per simulation**.
+Every deposition run must be validated with a full thermo-mechanical FEM simulation to predict residual stress and distortion. Dimensional errors of even a few micrometres can misalign mirror modules and degrade X-ray focusing performance. The full 3D FEM model runs on a mesh of **2.5 million elements** across **45 CPU cores** and takes **30 minutes per simulation**.
 
 <table>
 <tr>
@@ -47,15 +47,15 @@ Every deposition run must be validated with a full thermo-mechanical FEM simulat
 </tr>
 </table>
 
-Iterating over laser power, scan speed, hatch spacing, and layer geometry — as required for process optimisation — means running this simulation **hundreds of times**. At 30 minutes per run, a full parameter sweep is computationally infeasible. A surrogate model that reproduces the thermal field in milliseconds unlocks automated optimisation and real-time process control.
+Iterating over laser power, scan speed, hatch spacing, and layer geometry, as required for process optimisation, means running this simulation **hundreds of times**. At 30 minutes per run, a full parameter sweep is computationally infeasible. A surrogate model that reproduces the thermal field in milliseconds unlocks automated optimisation and real-time process control.
 
 ---
 
 ## Abstract
 
-ESA's ATHENA X-ray telescope requires a 3-metre titanium optical bench manufactured via Directed Energy Deposition (DED) — an unprecedented feat of large-scale metal additive manufacturing. Validating each deposition strategy demands a full-physics FEM simulation with up to **2.5 million elements**; a single run takes **30 minutes across 45 CPUs**. This makes iterative design exploration, process parameter optimisation, and real-time control loops computationally infeasible with high-fidelity FEM alone.
+ESA's ATHENA X-ray telescope requires a 3-metre titanium optical bench manufactured via Directed Energy Deposition (DED), an unprecedented feat of large-scale metal additive manufacturing. Validating each deposition strategy demands a full-physics FEM simulation with up to **2.5 million elements**; a single run takes **30 minutes across 45 CPUs**. This makes iterative design exploration, process parameter optimisation, and real-time control loops computationally infeasible with high-fidelity FEM alone.
 
-This project builds and benchmarks two neural network surrogate models on a 2D thermal proof-of-concept: a **ROM+MLP** (Reduced Order Model + temporal MLP) and a **PINN** (Physics-Informed Neural Network). Both are trained on FEM output and evaluated under strict temporal extrapolation — the most challenging and industrially realistic setting. The ROM+MLP achieves **R²=0.910, RMSE=36.8°C** at sub-second inference, replacing a 30-minute FEM run.
+This project builds and benchmarks two neural network surrogate models on a 2D thermal proof-of-concept: a **ROM+MLP** (Reduced Order Model + temporal MLP) and a **PINN** (Physics-Informed Neural Network). Both are trained on FEM output and evaluated under strict temporal extrapolation, the most challenging and industrially realistic setting. The ROM+MLP achieves **R²=0.910, RMSE=36.8°C** at sub-second inference, replacing a 30-minute FEM run.
 
 ---
 
@@ -68,7 +68,7 @@ This project builds and benchmarks two neural network surrogate models on a 2D t
 | Parameter sweeps | Infeasible (months of compute) | Feasible in minutes |
 | Use case | Final validation | Design loops, optimisation, online control |
 
-The ATHENA optical bench is deposited rib-by-rib in a precise sequence. Each rib has its own deposition parameters — laser power, scan speed, hatch spacing — and the thermal history of each pass affects residual stress and dimensional accuracy in every subsequent one. Finding the optimal parameter set requires sweeping hundreds of combinations. High-fidelity FEM is the gold standard but is prohibitively slow for any iterative workflow.
+The ATHENA optical bench is deposited rib-by-rib in a precise sequence. Each rib has its own deposition parameters (laser power, scan speed, hatch spacing), and the thermal history of each pass affects residual stress and dimensional accuracy in every subsequent one. Finding the optimal parameter set requires sweeping hundreds of combinations. High-fidelity FEM is the gold standard but is prohibitively slow for any iterative workflow.
 
 A surrogate trained once on a library of FEM outputs can produce physically consistent temperature field predictions in milliseconds, enabling the kind of automated parameter search that is otherwise computationally infeasible.
 
