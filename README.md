@@ -71,7 +71,7 @@ A surrogate trained once on a library of FEM outputs can produce physically cons
 ### ROM+MLP: Reduced Order Model with Temporal MLP
 
 ```
-FEM snapshot matrix  [N_nodes x N_timesteps]
+   FEM snapshot matrix  [N_nodes x N_timesteps]
          |
          v
    POD compression
@@ -81,7 +81,7 @@ FEM snapshot matrix  [N_nodes x N_timesteps]
          v
    Temporal MLP  (t -> modal coefficients)
    +------------------------------------------------------+
-   |  Input features: [t, t^2, sqrt(t), log(1+5t),       |
+   |  Input features: [t, t^2, sqrt(t), log(1+5t),        |
    |                   1-exp(-3t), sin(pi*t), cos(pi*t),  |
    |                   sin(2*pi*t)]                       |
    |                                                      |
@@ -102,7 +102,7 @@ FEM snapshot matrix  [N_nodes x N_timesteps]
 ### PINN: Physics-Informed Neural Network
 
 ```
-Input: (x_norm, y_norm, t_norm) in [0,1]^3
+   Input: (x_norm, y_norm, t_norm) in [0,1]^3
          |
          v
    6 x Dense(128, tanh)
@@ -113,15 +113,15 @@ Input: (x_norm, y_norm, t_norm) in [0,1]^3
          v
    Multi-objective loss:
    +------------------------------------------------------+
-   |  L_total = L_data                                    |
-   |           + lambda_phys * L_PDE                      |
-   |           + lambda_BC   * L_BC                       |
+   | L_total = L_data                                     |
+   |          + lambda_phys * L_PDE                       |
+   |          + lambda_BC   * L_BC                        |
    |                                                      |
-   |  L_PDE: 2D heat equation residual (finite diff.)     |
-   |    dT/dt = gamma_x * d^2T/dx^2  +  gamma_y * d^2T/dy^2  |
-   |    gamma_x, gamma_y: learnable, log-parameterised    |
+   | L_PDE: 2D heat equation residual (finite diff.)      |
+   | dT/dt = gamma_x * d^2T/dx^2  +  gamma_y * d^2T/dy^2  |
+   | gamma_x, gamma_y: learnable, log-parameterised       |
    |                                                      |
-   |  L_BC: T(x,y,0)=25 C  +  Neumann wall conditions    |
+   | L_BC: T(x,y,0)=25 C  +  Neumann wall conditions      |
    +------------------------------------------------------+
 ```
 
