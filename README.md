@@ -39,13 +39,13 @@ Every deposition run must be validated with a full thermo-mechanical FEM simulat
 </tr>
 </table>
 
-Iterating over laser power, scan speed, hatch spacing, and layer geometry, as required for process optimisation, means running this simulation **hundreds of times**. At 30 minutes per run, a full parameter sweep is computationally infeasible. A surrogate model that reproduces the thermal field in milliseconds unlocks automated optimisation and real-time process control.
+Iterating over laser power, scan speed, hatch spacing, and layer geometry, as required for process optimisation, means running this simulation **hundreds of times**. At hours per run, a full parameter sweep is computationally infeasible. A surrogate model that reproduces the thermal field in milliseconds unlocks automated optimisation and real-time process control.
 
 ---
 
 ## Abstract
 
-ESA's ATHENA X-ray telescope requires a 3-metre titanium optical bench manufactured via Directed Energy Deposition (DED), an unprecedented feat of large-scale metal additive manufacturing. Validating each deposition strategy demands a full-physics FEM simulation with up to **2.5 million elements**; a single run takes **30 minutes across 45 CPUs**. This makes iterative design exploration, process parameter optimisation, and real-time control loops computationally infeasible with high-fidelity FEM alone.
+ESA's ATHENA X-ray telescope requires a 3-metre titanium optical bench manufactured via Directed Energy Deposition (DED), an unprecedented feat of large-scale metal additive manufacturing. Validating each deposition strategy demands a full-physics FEM simulation with up to **2.5 million elements**; a single run takes **hours across 45 CPUs**. This makes iterative design exploration, process parameter optimisation, and real-time control loops computationally infeasible with high-fidelity FEM alone.
 
 This project builds and benchmarks two neural network surrogate models on a 2D thermal proof-of-concept: a **ROM+MLP** (Reduced Order Model + temporal MLP) and a **PINN** (Physics-Informed Neural Network). Both are trained on FEM output and evaluated under strict temporal extrapolation, the most challenging and industrially realistic setting. The ROM+MLP achieves **R²=0.910, RMSE=36.8°C** at sub-second inference, replacing a 30-minute FEM run.
 
