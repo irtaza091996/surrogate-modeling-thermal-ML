@@ -26,7 +26,7 @@ At the heart of ATHENA is a **3-metre diameter optical bench** that holds approx
 
 ### The Manufacturing Challenge
 
-Every deposition run must be validated with a full thermo-mechanical FEM simulation to predict residual stress and distortion. Dimensional errors of even a few micrometres can misalign mirror modules and degrade X-ray focusing performance. The full 3D FEM model runs on a mesh of **2.5 million elements** across **45 CPU cores** and takes **30 minutes per simulation**.
+Every deposition run must be validated with a full thermo-mechanical FEM simulation to predict residual stress and distortion. Dimensional errors of even a few micrometres can misalign mirror modules and degrade X-ray focusing performance. The full 3D FEM model runs on a mesh of **2.5 million elements** across **45 CPU cores** and takes **hours per simulation**.
 
 <table>
 <tr>
