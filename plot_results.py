@@ -399,6 +399,103 @@ def fig4_physics_discovery(pinn):
     print("    Saved: fig4_physics_discovery.png")
 
 
+# ── Figure 5: Train vs Test metric comparison ─────────────────────────────
+
+def fig5_train_test_comparison(rom, pinn):
+    print("  Building fig5_train_test_comparison.png ...")
+
+    # Check that training metrics exist
+    has_train = lambda d: d and "train_MAE" in d["metrics"]
+    if not has_train(rom) and not has_train(pinn):
+        print("    WARNING: No training metrics found in metrics.json.")
+        print("    Re-run rom_lstm.py and pinn.py first, then regenerate plots.")
+        return
+
+    with plt.rc_context(LIGHT_RC):
+        metrics_cfg = [
+            ("R2",         "R\u00b2",       None),
+            ("RMSE",       "RMSE (\u00b0C)", None),
+            ("MAE",        "MAE (\u00b0C)",  None),
+        ]
+
+        fig, axes = plt.subplots(1, 3, figsize=(14, 5), facecolor="white")
+
+        bar_w   = 0.18
+        x_pos   = np.arange(2)   # ROM+MLP, PINN
+        offsets = [-bar_w * 1.5, -bar_w * 0.5, bar_w * 0.5, bar_w * 1.5]
+        colors  = ["#00a86b", "#90e0c8", "#e05252", "#f4a8a8"]
+        labels  = ["ROM+MLP Train", "ROM+MLP Test", "PINN Train", "PINN Test"]
+
+        for ax, (key, ylabel, _) in zip(axes, metrics_cfg):
+            train_key = f"train_{key}"
+            vals = []
+            for mk, tk, model in [
+                (key, train_key, rom),
+                (key, train_key, pinn),
+            ]:
+                train_v = model["metrics"].get(tk, None) if model else None
+                test_v  = model["metrics"].get(mk, None) if model else None
+                vals.append((train_v, test_v))
+
+            # Draw bars for each model side by side
+            bar_data = [
+                (offsets[0], vals[0][0], colors[0], labels[0]),  # ROM train
+                (offsets[1], vals[0][1], colors[1], labels[1]),  # ROM test
+                (offsets[2], vals[1][0], colors[2], labels[2]),  # PINN train
+                (offsets[3], vals[1][1], colors[3], labels[3]),  # PINN test
+            ]
+
+            # Single x-axis position (no model grouping needed — just 4 bars)
+            bar_positions = np.arange(4)
+            bar_vals      = [b[1] for b in bar_data]
+            bar_colors    = [b[2] for b in bar_data]
+            bar_labels    = [b[3] for b in bar_data]
+
+            bars = ax.bar(bar_positions, bar_vals, color=bar_colors,
+                          width=0.6, edgecolor="white", linewidth=0.8, zorder=3)
+
+            # Value labels on top
+            top = max(v for v in bar_vals if v is not None)
+            if key == "R2":
+                ax.set_ylim(0, min(top * 1.20, 1.15))
+            else:
+                ax.set_ylim(0, top * 1.25)
+
+            for bar, v in zip(bars, bar_vals):
+                if v is None:
+                    continue
+                fmt = f"{v:.4f}" if key == "R2" else f"{v:.1f}"
+                ax.text(bar.get_x() + bar.get_width() / 2,
+                        bar.get_height() + top * 0.02,
+                        fmt, ha="center", va="bottom",
+                        fontsize=9, fontweight="bold", color="#222222", zorder=4)
+
+            ax.set_xticks(bar_positions)
+            ax.set_xticklabels(["ROM+MLP\nTrain", "ROM+MLP\nTest",
+                                 "PINN\nTrain",   "PINN\nTest"],
+                               fontsize=9)
+            ax.set_title(ylabel, fontsize=12, fontweight="bold", pad=10)
+            ax.set_ylabel(key, fontsize=10)
+            ax.grid(True, axis="y", alpha=0.4, zorder=0)
+            ax.set_axisbelow(True)
+            for sp in ax.spines.values():
+                sp.set_edgecolor("#cccccc")
+
+        # Vertical separator lines between ROM and PINN groups
+        for ax in axes:
+            ax.axvline(1.5, color="#cccccc", linewidth=1.2, linestyle="--", zorder=2)
+
+        fig.suptitle(
+            "Training vs Test Performance  --  ROM+MLP and PINN\n"
+            "Train: t=0-1600s  |  Test: t=1600-2000s  (temporal extrapolation)",
+            fontsize=12, fontweight="bold", y=1.02)
+        plt.tight_layout()
+        fig.savefig(OUT / "fig5_train_test_comparison.png", dpi=200,
+                    bbox_inches="tight", facecolor="white")
+        plt.close()
+    print("    Saved: fig5_train_test_comparison.png")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────
 
 def main():
@@ -415,6 +512,7 @@ def main():
     fig2_temperature_fields(rom, pinn, coords)
     fig3_error_evolution(rom, pinn)
     fig4_physics_discovery(pinn)
+    fig5_train_test_comparison(rom, pinn)
     print(f"\nAll figures saved to: {OUT}")
     print("=" * 60)
 

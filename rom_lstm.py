@@ -333,6 +333,15 @@ def main():
     metrics  = compute_metrics(T_test, T_pred)
     node_mae = per_node_metrics(T_test, T_pred)
 
+    # Training metrics
+    pred_coeffs_train = model.predict(F_train, verbose=0)
+    T_pred_train      = pod.reconstruct(pred_coeffs_train)
+    train_metrics     = compute_metrics(T_train, T_pred_train)
+
+    print(f"\n  Train metrics:")
+    print(f"  R2   : {train_metrics['R2']:.6f}")
+    print(f"  RMSE : {train_metrics['RMSE']:.4f} degC")
+    print(f"  MAE  : {train_metrics['MAE']:.4f} degC")
     print(f"\n  Test metrics (temporal holdout, direct MLP prediction):")
     print(f"  R2   : {metrics['R2']:.6f}")
     print(f"  RMSE : {metrics['RMSE']:.4f} °C")
@@ -363,13 +372,16 @@ def main():
 
     # ── Save ───────────────────────────────────────────────────────────────
     results = {
-        "model":          "ROM+LSTM",
+        "model":          "ROM+MLP",
         "n_modes":        N_MODES,
         "energy_pct":     pod.energy_captured,
         "pod_train_rmse": pod_rmse,
         "n_params":       n_params,
         "train_time_s":   train_time,
         "infer_time_s":   infer_time,
+        "train_R2":       train_metrics["R2"],
+        "train_RMSE":     train_metrics["RMSE"],
+        "train_MAE":      train_metrics["MAE"],
         **metrics,
     }
     with open(OUT / "metrics.json", "w") as f:

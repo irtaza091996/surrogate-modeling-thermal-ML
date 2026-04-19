@@ -332,6 +332,21 @@ def main():
     metrics  = compute_metrics(T_test, T_pred)
     node_mae = per_node_metrics(T_test, T_pred)
 
+    # Training metrics
+    train_preds = []
+    for i in range(0, len(x_n_all), CHUNK):
+        xyt = tf.constant(
+            np.stack([x_n_all[i:i+CHUNK], y_n_all[i:i+CHUNK], t_n_all[i:i+CHUNK]], axis=1),
+            dtype=tf.float32,
+        )
+        train_preds.append(model(xyt, training=False).numpy().flatten())
+    T_pred_train  = denorm_T(np.concatenate(train_preds)).reshape(len(t_train), -1)
+    train_metrics = compute_metrics(T_train, T_pred_train)
+
+    print(f"\n  Train metrics:")
+    print(f"  R2   : {train_metrics['R2']:.6f}")
+    print(f"  RMSE : {train_metrics['RMSE']:.4f} degC")
+    print(f"  MAE  : {train_metrics['MAE']:.4f} degC")
     print(f"\n  Test metrics (temporal holdout):")
     print(f"  R2   : {metrics['R2']:.6f}")
     print(f"  RMSE : {metrics['RMSE']:.4f} degC")
@@ -382,13 +397,16 @@ def main():
         "model":        "PINN",
         "n_params":     n_params,
         "n_steps":      N_STEPS,
-
         "lambda_phys":  LAMBDA_PHYSICS,
         "lambda_bc":    LAMBDA_BC,
         "gamma_x":      float(model.gamma_x),
         "gamma_y":      float(model.gamma_y),
+        "gamma_ratio":  float(model.gamma_x) / float(model.gamma_y),
         "train_time_s": train_time,
         "infer_time_s": infer_time,
+        "train_R2":     train_metrics["R2"],
+        "train_RMSE":   train_metrics["RMSE"],
+        "train_MAE":    train_metrics["MAE"],
         **metrics,
     }
     with open(OUT / "metrics.json", "w") as f:
